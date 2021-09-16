@@ -1,13 +1,22 @@
 #!/bin/env python3
 # -*- coding: utf-8 -*
-#京喜88领红包A版
-#cron 5 0,20 0 * * *
+'''
+cron: 5 0,20 0 * * * jx_lhb.py
+new Env('京喜88领红包A版');
+'''
 
 # export jx88_pins=["pt_pin1","pt_pin2"]
 
+import os, re, sys
+import random
+try:
+    import requests
+except Exception as e:
+    print(e, "\n缺少requests 模块，请执行命令安装：pip3 install requests")
+    exit(3)
 from urllib.parse import unquote, quote
-import time, datetime, os, sys
-import requests, json, re, random
+import json
+import time, datetime
 import threading
 
 UserAgent = ''

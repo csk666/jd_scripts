@@ -1,7 +1,8 @@
 #!/bin/env python3
 # -*- coding: utf-8 -*
+#京喜88领红包A版
+#cron 5 0,20 0 * * *
 
-# cron 0 0 0 * * *
 # export jx88_pins=["pt_pin1","pt_pin2"]
 
 from urllib.parse import unquote, quote
@@ -10,7 +11,7 @@ import requests, json, re, random
 import threading
 
 UserAgent = ''
-script_name = '京喜88领红包'
+script_name = '京喜88领红包A版'
 BASE_URL = 'https://wq.jd.com/cubeactive/steprewardv3'
 activeId = '489177'
 UA = 'jdpingou;iPhone;4.13.0;14.4.2;network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/${Math.random * 98 + 1};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
@@ -297,7 +298,7 @@ def openRedPack(mycookie,strPin,j):
 def help(mycookie,cookiesList,j):
     strPin, dwGrade = joinActive(mycookie)
     if strPin == 0:
-        openRedPack(strPin)
+        openRedPack(mycookie, strPin,j)
     elif strPin != 0 and strPin != -1:
         function_path = 'EnrollFriend'
         stk = 'activeId,channel,joinDate,phoneid,publishFlag,strPin,timestamp'

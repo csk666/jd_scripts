@@ -6,7 +6,7 @@ new Env('京喜88领红包A版');
 '''
 
 # export jx88_pins=["pt_pin1","pt_pin2"]
-
+import math
 import os, re, sys
 import random
 try:
@@ -201,9 +201,30 @@ def setHeaders(cookie):
     }
     return headers
 
+def randomString(e):
+    t = "0123456789abcdef"
+    a = len(t)
+    n = ""
+    for i in range(e):
+        n = n + t[math.floor(random.random() * a)]
+    return n
+
+def generateStr(number):
+    src = 'abcdefghijklmnopqrstuvwxyz1234567890'
+    res = ''
+    for i in range(number):
+        res = res + src[math.floor(len(src) * random.random())]
+    return res
+
+def getUa():
+    UA = f'jdpingou;iPhone;4.13.0;14.4.2;{randomString(40)};network/wifi;model/iPhone10,2;appBuild/100609;ADID/00000000-0000-0000-0000-000000000000;supportApplePay/1;hasUPPay/0;pushNoticeIsOpen/1;hasOCPay/0;supportBestPay/0;session/{random.uniform(1,99)};pap/JA2019_3111789;brand/apple;supportJDSHWK/1;Mozilla/5.0 (iPhone; CPU iPhone OS 14_6 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Mobile/15E148'
+    return UA
 
 def taskurl(cookie, function_path, stk, body=''):
-    url = f'{BASE_URL}/{function_path}?activeId={activeId}&publishFlag=1&channel=7&{body}&sceneval=2&g_login_type=1&timestamp={int(time.time())}&_={int(time.time()) + 2}&_ste=1&_stk={stk}'
+    UA = getUa()
+    url = f'{BASE_URL}/{function_path}?activeId={activeId}&publishFlag=1&channel=7&{body}&sceneval=2&g_login_type=1&timestamp={int(time.time() * 1000)}&_={int(time.time() * 1000) + 2}&_ste=1&_stk={stk}'
+    deviceId = UA.split(';')[4]
+    url = url + f'&phoneid={deviceId}&stepreward_jstoken={generateStr(32)}'
     headers = {
         'Host': 'm.jingxi.com',
         'Cookie': cookie,
@@ -369,7 +390,10 @@ def start():
                 continue
     if len(jx88_cookies) == 0:
         exit(4)
-    use_thread(jx88_cookies,cookiesList)
+
+    use_thread(jx88_cookies, cookiesList)
+    # for i in range(len(jx88_cookies)):
+    #     help(jx88_cookies[i],cookiesList,i+1)
 
 if __name__ == '__main__':
     start()
